@@ -3,12 +3,12 @@
 import { computed, toRefs } from 'vue';
 import PaginationButton from './PaginationButton.vue';
 import PaginationButtonPlaceHolder from './PaginationButtonPlaceHolder.vue';
+import { range } from '@/shared/lib/range';
 
 interface IPaginationProps {
   currentPage: number,
   totalPages: number,
   addNextPrevButtons?: boolean
-
   //количество кнопок которое нужно генерировать в левую и в правую сторону от кнопки текущей страницы
   countOfButtonsFromCurrent?: number
 }
@@ -25,11 +25,12 @@ const {
   countOfButtonsFromCurrent
 } = toRefs(props);
 
-//todo вынести всё это в один computed, возвращающий объект
-const prevPage = computed(() => currentPage.value > 1 ? currentPage.value - 1 : null);
-const nextPage = computed(() => currentPage.value < totalPages.value ? currentPage.value + 1 : null);
-const currentPageFirst = computed(() => currentPage.value === 1);
-const currentPageLast = computed(() => currentPage.value === totalPages.value);
+const pageData = computed(() => ({
+  prevPage: currentPage.value > 1 ? currentPage.value - 1 : null,
+  nextPage: currentPage.value < totalPages.value ? currentPage.value + 1 : null,
+  isCurrentPageFirst: currentPage.value === 1,
+  isCurrentPageLast: currentPage.value === totalPages.value
+}));
 
 const pagesToGenerate = computed(() => {
   let start = currentPage.value - countOfButtonsFromCurrent.value;
@@ -45,10 +46,7 @@ const pagesToGenerate = computed(() => {
     start = totalPages.value - countOfButtonsFromCurrent.value * 2;
   }
 
-  //todo вынести в функцию хелпер
-  return new Array(end - start)
-    .fill(null)
-    .map((_, index) => start + index);
+  return range(start, end);
 });
 
 const emit = defineEmits(['changePage']);
@@ -65,14 +63,14 @@ const changePageHandler = (page: number) => emit('changePage', page);
       <!--   previous page button   -->
       <PaginationButton
         v-if="addNextPrevButtons"
-        :disabled="prevPage === null"
+        :disabled="pageData.prevPage === null"
         :text="'предыдущая страница'"
-        @changePage="changePageHandler(prevPage)"
+        @changePage="changePageHandler(pageData.prevPage)"
       />
 
       <!--   first page button   -->
       <PaginationButton
-        :active="currentPageFirst"
+        :active="pageData.isCurrentPageFirst"
         :text="'1'"
         @changePage="changePageHandler(1)"
       />
@@ -81,7 +79,6 @@ const changePageHandler = (page: number) => emit('changePage', page);
       <PaginationButtonPlaceHolder v-if="pagesToGenerate[0] !== 2"/>
 
       <!--   generated buttons   -->
-
       <PaginationButton
         v-for="pageNumber in pagesToGenerate"
         :active="pageNumber === currentPage"
@@ -94,7 +91,7 @@ const changePageHandler = (page: number) => emit('changePage', page);
 
       <!--   last page button   -->
       <PaginationButton
-        :active="currentPageLast"
+        :active="pageData.isCurrentPageLast"
         :text="totalPages"
         @changePage="changePageHandler(totalPages)"
       />
@@ -102,9 +99,9 @@ const changePageHandler = (page: number) => emit('changePage', page);
       <!--   next page button   -->
       <PaginationButton
         v-if="addNextPrevButtons"
-        :disabled="nextPage === null"
+        :disabled="pageData.nextPage === null"
         :text="'следующая страница'"
-        @changePage="changePageHandler(nextPage)"
+        @changePage="changePageHandler(pageData.nextPage)"
       />
     </ul>
   </div>
