@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ITableColumn, ITableRowData, Table } from '@/shared/components/Table';
+import { ITableColumn, ITableRowData, Table } from '@/shared/components';
 
 const tableColumns: ITableColumn[] = [
   {

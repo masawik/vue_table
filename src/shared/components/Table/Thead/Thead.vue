@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { ITableColumn } from '../types';
+import SortableTh from './SortableTh.vue';
 
 interface ITheadProps {
   columns: ITableColumn[];
@@ -17,12 +18,15 @@ const {
 <template>
   <thead>
   <tr class="table-primary">
-    <th
+    <template
       v-for="header in columns"
       :key="header.dataKey"
     >
-      {{ header.view }}
-    </th>
+      <component :is="header.sortable ? SortableTh : 'th'">
+        {{ header.view }}
+      </component>
+    </template>
+
 
     <th v-if="addActionColumn">
       <slot name="action"/>

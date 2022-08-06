@@ -1,4 +1,3 @@
-//todo view может быть не только строкой но и компонентом (для добавления интерактивных элементов)
 export interface ITableCellData {
   view: string;
   dataKey: string;
@@ -15,4 +14,9 @@ export interface ITableRowData {
   data: {
     [key: ITableCellData['dataKey']]: ITableCellData['view']
   };
+}
+
+export enum SortStates {
+  ASC = 'ASC',
+  DESC = 'DESC'
 }
