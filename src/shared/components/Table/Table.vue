@@ -2,7 +2,7 @@
 import { Thead } from './Thead';
 import { Tbody } from './Tbody';
 import { computed, toRefs } from 'vue';
-import { ITableColumn, ITableRowData } from '@/shared/ui/Table/types';
+import { ITableColumn, ITableRowData } from '@/shared/components/Table/types';
 
 export interface ITableProps {
   columns: ITableColumn[];

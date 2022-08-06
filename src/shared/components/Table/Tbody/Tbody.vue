@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ITableCellData, ITableRowData } from '@/shared/ui/Table/types';
+import { ITableCellData, ITableRowData } from '@/shared/components/Table/types';
 import { toRefs } from 'vue';
 
 interface ITbodyProps {
