@@ -1,6 +1,8 @@
-import { createApp } from 'vue'
-import App from './index.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
+import { store } from './model';
 
-const app = createApp(App)
+const app = createApp(App);
+app.use(store);
 
-export default app
+export default app;
