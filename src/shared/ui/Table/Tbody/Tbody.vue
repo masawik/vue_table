@@ -5,26 +5,35 @@ import { toRefs } from 'vue';
 interface ITbodyProps {
   rowsData: ITableRowData[];
   dataKeyOrder: Array<ITableCellData['dataKey']>;
+  addActionColumn: boolean;
 }
 
 const props = defineProps<ITbodyProps>();
 const {
   rowsData,
-  dataKeyOrder
+  dataKeyOrder,
+  addActionColumn
 } = toRefs(props);
 </script>
 
 <template>
   <tbody class="table-group-divider">
   <tr
-    v-for="rowData in rowsData"
-    :key="rowData.rowId"
+    v-for="{rowId, data} in rowsData"
+    :key="rowId"
   >
     <td
       v-for="dataKey in dataKeyOrder"
-      :key="`${rowData.rowId}_${dataKey}`"
+      :key="`${rowId}_${dataKey}`"
     >
-      {{ rowData.data[dataKey] }}
+      {{ data[dataKey] }}
+    </td>
+
+    <td v-if="addActionColumn">
+      <slot
+        :rowId="rowId"
+        name="action"
+      />
     </td>
   </tr>
   </tbody>

@@ -4,10 +4,14 @@ import { ITableColumn } from '../types';
 
 interface ITheadProps {
   columns: ITableColumn[];
+  addActionColumn: boolean;
 }
 
 const props = defineProps<ITheadProps>();
-const { columns } = toRefs(props);
+const {
+  columns,
+  addActionColumn
+} = toRefs(props);
 </script>
 
 <template>
@@ -18,6 +22,10 @@ const { columns } = toRefs(props);
       :key="header.dataKey"
     >
       {{ header.view }}
+    </th>
+
+    <th v-if="addActionColumn">
+      <slot name="action"/>
     </th>
   </tr>
   </thead>
