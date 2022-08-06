@@ -5,31 +5,49 @@ import { computed, toRefs } from 'vue';
 import { ITableColumn, ITableRowData } from '@/shared/ui/Table/types';
 
 export interface ITableProps {
-  caption?: string;
   columns: ITableColumn[];
   rowsData: ITableRowData[];
+  addActionsColumn: boolean;
 }
 
 const props = defineProps<ITableProps>();
 
 const {
-  caption,
   columns,
-  rowsData
+  rowsData,
+  addActionsColumn
 } = toRefs(props);
 
 const dataKeyOrder = computed(() => columns.value.map(column => column.dataKey));
 </script>
 
+
+
 <template>
   <table class="table table-light table-hover table-bordered caption-top text-center">
-    <caption v-if="caption">{{ caption }}</caption>
-    <Thead :columns="columns"/>
+    <slot name="beforeHeader"/>
+
+    <Thead
+      :addActionColumn="addActionsColumn"
+      :columns="columns"
+    >
+      <template v-slot:action>
+        <slot name="headerAction"/>
+      </template>
+    </Thead>
 
     <Tbody
+      :addActionColumn="addActionsColumn"
       :dataKeyOrder="dataKeyOrder"
       :rowsData="rowsData"
-    />
+    >
+    <template v-slot:action="rowSlotProps">
+      <slot
+        :rowSlotProps="rowSlotProps"
+        name="rowActions"
+      />
+    </template>
+    </Tbody>
 
     <slot name="footer"/>
   </table>

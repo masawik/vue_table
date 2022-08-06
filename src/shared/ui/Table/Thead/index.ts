@@ -1,1 +1,1 @@
-export { default as Thead } from './index.vue';
+export { default as Thead } from './Thead.vue';

@@ -16,11 +16,6 @@ const tableColumns: ITableColumn[] = [
     view: 'Номер телефона',
     dataKey: 'phoneNumber',
     sortable: false
-  },
-  {
-    view: '',
-    dataKey: 'action',
-    sortable: false
   }
 ];
 
@@ -30,21 +25,30 @@ const rowsData: ITableRowData[] = [
     data: {
       'name': 'ООО "пук"',
       'SEOFullName': 'Иванов П.П.',
-      'phoneNumber': '+79999999999',
-      'action': 'X'
+      'phoneNumber': '+79999999999'
     }
   }
 ];
-
 </script>
 
 <template>
   <div class="row mb-1 mt-3">
     <Table
-      :caption="'Organization List'"
+      :addActionsColumn="true"
       :columns="tableColumns"
       :rowsData="rowsData"
     >
+      <template v-slot:beforeHeader>
+        <caption>Organization List</caption>
+      </template>
+
+      <template v-slot:headerAction>
+        <span>headerAction</span>
+      </template>
+
+      <template v-slot:rowActions="rowSlotProps">
+        <button>test</button>
+      </template>
     </Table>
   </div>
 </template>

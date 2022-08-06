@@ -1,2 +1,2 @@
-export { default as Table } from './index.vue';
+export { default as Table } from './Table.vue';
 export * from './types';

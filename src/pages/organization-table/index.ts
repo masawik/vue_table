@@ -1,3 +1,3 @@
-import OrganizationTablePage from './index.vue'
+import OrganizationTablePage from './OrganizationTablePage.vue'
 
 export default OrganizationTablePage
