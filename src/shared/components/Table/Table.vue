@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Thead } from './Thead';
 import { Tbody } from './Tbody';
-import { computed, toRefs } from 'vue';
+import { computed, toRef } from 'vue';
 import { ITableColumn, ITableRowData } from '@/shared/components/Table/types';
 
 export interface ITableProps {
@@ -12,16 +12,11 @@ export interface ITableProps {
 
 const props = defineProps<ITableProps>();
 
-const {
-  columns,
-  rowsData,
-  addActionsColumn
-} = toRefs(props);
+const {columns, addActionsColumn} = props
+const rowsData = toRef(props, 'rowsData')
 
-const dataKeyOrder = computed(() => columns.value.map(column => column.dataKey));
+const dataKeyOrder = computed(() => columns.map(column => column.dataKey));
 </script>
-
-
 
 <template>
   <table class="table table-light table-hover table-bordered caption-top text-center">

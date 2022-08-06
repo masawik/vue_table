@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { toRefs } from 'vue';
 import { ITableColumn } from '../types';
 import SortableTh from './SortableTh.vue';
 
@@ -8,11 +7,11 @@ interface ITheadProps {
   addActionColumn: boolean;
 }
 
-const props = defineProps<ITheadProps>();
 const {
   columns,
   addActionColumn
-} = toRefs(props);
+} = defineProps<ITheadProps>();
+
 </script>
 
 <template>

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ITableCellData, ITableRowData } from '@/shared/components/Table/types';
-import { toRefs } from 'vue';
 
 interface ITbodyProps {
   rowsData: ITableRowData[];
@@ -8,12 +7,11 @@ interface ITbodyProps {
   addActionColumn: boolean;
 }
 
-const props = defineProps<ITbodyProps>();
 const {
   rowsData,
   dataKeyOrder,
   addActionColumn
-} = toRefs(props);
+} = defineProps<ITbodyProps>();
 </script>
 
 <template>
