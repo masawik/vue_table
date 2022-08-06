@@ -1,0 +1,115 @@
+<!--todo добавить формочку перемещения на указанную страницу при большом количестве страниц-->
+<script lang="ts" setup>
+import { computed, toRefs } from 'vue';
+import PaginationButton from './PaginationButton.vue';
+import PaginationButtonPlaceHolder from './PaginationButtonPlaceHolder.vue';
+
+interface IPaginationProps {
+  currentPage: number,
+  totalPages: number,
+  addNextPrevButtons?: boolean
+
+  //количество кнопок которое нужно генерировать в левую и в правую сторону от кнопки текущей страницы
+  countOfButtonsFromCurrent?: number
+}
+
+const props = withDefaults(defineProps<IPaginationProps>(), {
+  addNextPrevButtons: true,
+  countOfButtonsFromCurrent: 3
+});
+
+const {
+  currentPage,
+  totalPages,
+  addNextPrevButtons,
+  countOfButtonsFromCurrent
+} = toRefs(props);
+
+//todo вынести всё это в один computed, возвращающий объект
+const prevPage = computed(() => currentPage.value > 1 ? currentPage.value - 1 : null);
+const nextPage = computed(() => currentPage.value < totalPages.value ? currentPage.value + 1 : null);
+const currentPageFirst = computed(() => currentPage.value === 1);
+const currentPageLast = computed(() => currentPage.value === totalPages.value);
+
+const pagesToGenerate = computed(() => {
+  let start = currentPage.value - countOfButtonsFromCurrent.value;
+  let end = currentPage.value + countOfButtonsFromCurrent.value;
+
+  if (start < 2) {
+    start = 2;
+    end = countOfButtonsFromCurrent.value * 2 + 2;
+  }
+
+  if (end > totalPages.value) {
+    end = totalPages.value;
+    start = totalPages.value - countOfButtonsFromCurrent.value * 2;
+  }
+
+  //todo вынести в функцию хелпер
+  return new Array(end - start)
+    .fill(null)
+    .map((_, index) => start + index);
+});
+
+const emit = defineEmits(['changePage']);
+
+const changePageHandler = (page: number) => emit('changePage', page);
+</script>
+
+<template>
+  <div
+    v-if="totalPages > 1"
+    class="d-flex flex-column align-items-center"
+  >
+    <ul class="pagination">
+      <!--   previous page button   -->
+      <PaginationButton
+        v-if="addNextPrevButtons"
+        :disabled="prevPage === null"
+        :text="'предыдущая страница'"
+        @changePage="changePageHandler(prevPage)"
+      />
+
+      <!--   first page button   -->
+      <PaginationButton
+        :active="currentPageFirst"
+        :text="'1'"
+        @changePage="changePageHandler(1)"
+      />
+
+      <!--  left  placeholder    -->
+      <PaginationButtonPlaceHolder v-if="pagesToGenerate[0] !== 2"/>
+
+      <!--   generated buttons   -->
+
+      <PaginationButton
+        v-for="pageNumber in pagesToGenerate"
+        :active="pageNumber === currentPage"
+        :text="pageNumber"
+        @changePage="changePageHandler(pageNumber)"
+      />
+
+      <!--  right  placeholder    -->
+      <PaginationButtonPlaceHolder v-if="pagesToGenerate.slice(-1)[0] !== totalPages - 1"/>
+
+      <!--   last page button   -->
+      <PaginationButton
+        :active="currentPageLast"
+        :text="totalPages"
+        @changePage="changePageHandler(totalPages)"
+      />
+
+      <!--   next page button   -->
+      <PaginationButton
+        v-if="addNextPrevButtons"
+        :disabled="nextPage === null"
+        :text="'следующая страница'"
+        @changePage="changePageHandler(nextPage)"
+      />
+    </ul>
+  </div>
+</template>
+
+<style scoped>
+
+</style>

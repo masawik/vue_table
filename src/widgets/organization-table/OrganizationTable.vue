@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ITableColumn, ITableRowData, Table } from '@/shared/components';
+import { Pagination } from '@/shared/components/Pagination';
 
 const tableColumns: ITableColumn[] = [
   {
@@ -51,5 +52,11 @@ const sortHandler = (data: string) => {
         <button>X</button>
       </template>
     </Table>
+
+    <Pagination
+      :currentPage='1'
+      :totalPages="100"
+      @changePage="sortHandler"
+    />
   </div>
 </template>
