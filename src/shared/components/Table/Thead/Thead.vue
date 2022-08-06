@@ -12,18 +12,29 @@ const {
   addActionColumn
 } = defineProps<ITheadProps>();
 
+const emit = defineEmits(['sort']);
+
+const sortHandler = (dataKey: ITableColumn['dataKey']) => {
+  emit('sort', dataKey);
+};
+
 </script>
 
 <template>
   <thead>
   <tr class="table-primary">
     <template
-      v-for="header in columns"
-      :key="header.dataKey"
+      v-for="{sortable, dataKey, view} in columns"
+      :key="dataKey"
     >
-      <component :is="header.sortable ? SortableTh : 'th'">
-        {{ header.view }}
-      </component>
+      <SortableTh
+        v-if="sortable"
+        @click="sortHandler(dataKey)"
+      >
+        {{ view }}
+      </SortableTh>
+
+      <th v-else>{{ view }}</th>
     </template>
 
 

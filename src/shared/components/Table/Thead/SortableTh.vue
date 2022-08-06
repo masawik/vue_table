@@ -6,7 +6,6 @@ interface ISortableThProps {
 }
 
 const { sorted } = defineProps<ISortableThProps>();
-
 </script>
 
 <template>
@@ -16,6 +15,7 @@ const { sorted } = defineProps<ISortableThProps>();
     'sortableThDesc': sorted === SortStates.DESC
     }"
     class="btn-link sortableTh"
+
 
     role="button"
   >

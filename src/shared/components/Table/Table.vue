@@ -11,11 +11,20 @@ export interface ITableProps {
 }
 
 const props = defineProps<ITableProps>();
+const {
+  columns,
+  addActionsColumn
+} = props;
+const rowsData = toRef(props, 'rowsData');
 
-const {columns, addActionsColumn} = props
-const rowsData = toRef(props, 'rowsData')
+const emit = defineEmits(['sort']);
 
 const dataKeyOrder = computed(() => columns.map(column => column.dataKey));
+
+const sortHandler = (headerDataKey: string) => {
+  emit('sort', headerDataKey);
+};
+
 </script>
 
 <template>
@@ -25,10 +34,11 @@ const dataKeyOrder = computed(() => columns.map(column => column.dataKey));
     <Thead
       :addActionColumn="addActionsColumn"
       :columns="columns"
+      @sort="sortHandler"
     >
-      <template v-slot:action>
-        <slot name="headerAction"/>
-      </template>
+    <template v-slot:action>
+      <slot name="headerAction"/>
+    </template>
     </Thead>
 
     <Tbody

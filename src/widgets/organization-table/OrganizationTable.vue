@@ -29,6 +29,10 @@ const rowsData: ITableRowData[] = [
     }
   }
 ];
+
+const sortHandler = (data: string) => {
+  console.log(data);
+};
 </script>
 
 <template>
@@ -37,17 +41,14 @@ const rowsData: ITableRowData[] = [
       :addActionsColumn="true"
       :columns="tableColumns"
       :rowsData="rowsData"
+      @sort="sortHandler"
     >
       <template v-slot:beforeHeader>
         <caption>Organization List</caption>
       </template>
 
-      <template v-slot:headerAction>
-        <span>headerAction</span>
-      </template>
-
       <template v-slot:rowActions="rowSlotProps">
-        <button>test</button>
+        <button>X</button>
       </template>
     </Table>
   </div>
