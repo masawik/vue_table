@@ -1,5 +1,5 @@
 export interface ITableCellData {
-  view: string;
+  view: string | number;
   dataKey: string;
 }
 
@@ -10,13 +10,8 @@ export interface ITableColumn extends ITableCellData {
 //todo добавить дженерики, чтобы были подсказки dataKey
 
 export interface ITableRowData {
-  rowId: string;
+  rowId: string | number;
   data: {
     [key: ITableCellData['dataKey']]: ITableCellData['view']
   };
-}
-
-export enum SortStates {
-  ASC = 'ASC',
-  DESC = 'DESC'
 }

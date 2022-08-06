@@ -33,6 +33,11 @@ const pageData = computed(() => ({
 }));
 
 const pagesToGenerate = computed(() => {
+  //todo fast fix. возможно, нужно сделать иначе
+  if (totalPages.value < (countOfButtonsFromCurrent.value * 2) + 2) {
+    return range(2, totalPages.value);
+  }
+
   let start = currentPage.value - countOfButtonsFromCurrent.value;
   let end = currentPage.value + countOfButtonsFromCurrent.value;
 
@@ -76,7 +81,9 @@ const changePageHandler = (page: number) => emit('changePage', page);
       />
 
       <!--  left  placeholder    -->
-      <PaginationButtonPlaceHolder v-if="pagesToGenerate[0] !== 2"/>
+      <PaginationButtonPlaceHolder
+        v-if="pagesToGenerate.length && pagesToGenerate[0] !== 2"
+      />
 
       <!--   generated buttons   -->
       <PaginationButton
@@ -87,7 +94,9 @@ const changePageHandler = (page: number) => emit('changePage', page);
       />
 
       <!--  right  placeholder    -->
-      <PaginationButtonPlaceHolder v-if="pagesToGenerate.slice(-1)[0] !== totalPages - 1"/>
+      <PaginationButtonPlaceHolder
+        v-if="pagesToGenerate.length && pagesToGenerate.slice(-1)[0] !== totalPages - 1"
+      />
 
       <!--   last page button   -->
       <PaginationButton

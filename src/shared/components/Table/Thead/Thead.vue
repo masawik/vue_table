@@ -1,16 +1,26 @@
 <script lang="ts" setup>
 import { ITableColumn } from '../types';
 import SortableTh from './SortableTh.vue';
+import { SortingDirections } from '@/shared/config';
+import { toRefs } from 'vue';
 
 interface ITheadProps {
   columns: ITableColumn[];
   addActionColumn: boolean;
+  sortingState: {
+    dataKey: string,
+    direction: SortingDirections
+  };
 }
+
+const props = defineProps<ITheadProps>();
 
 const {
   columns,
   addActionColumn
-} = defineProps<ITheadProps>();
+} = props;
+
+const { sortingState } = toRefs(props);
 
 const emit = defineEmits(['sort']);
 
@@ -29,6 +39,7 @@ const sortHandler = (dataKey: ITableColumn['dataKey']) => {
     >
       <SortableTh
         v-if="sortable"
+        :sorted="dataKey === sortingState.dataKey ? sortingState.direction : null"
         @click="sortHandler(dataKey)"
       >
         {{ view }}

@@ -3,11 +3,16 @@ import { Thead } from './Thead';
 import { Tbody } from './Tbody';
 import { computed, toRef } from 'vue';
 import { ITableColumn, ITableRowData } from '@/shared/components/Table/types';
+import { SortingDirections } from '@/shared/config';
 
 export interface ITableProps {
   columns: ITableColumn[];
   rowsData: ITableRowData[];
   addActionsColumn: boolean;
+  sortingState: {
+    dataKey: string,
+    direction: SortingDirections
+  };
 }
 
 const props = defineProps<ITableProps>();
@@ -16,6 +21,7 @@ const {
   addActionsColumn
 } = props;
 const rowsData = toRef(props, 'rowsData');
+const sortingState = toRef(props, 'sortingState');
 
 const emit = defineEmits(['sort']);
 
@@ -30,10 +36,11 @@ const sortHandler = (headerDataKey: string) => {
 <template>
   <table class="table table-light table-hover table-bordered caption-top text-center">
     <slot name="beforeHeader"/>
-
+    <!--  todo нужно выносить отсюда Thead. слишком много проблем с сортировкой  -->
     <Thead
       :addActionColumn="addActionsColumn"
       :columns="columns"
+      :sortingState="sortingState"
       @sort="sortHandler"
     >
     <template v-slot:action>

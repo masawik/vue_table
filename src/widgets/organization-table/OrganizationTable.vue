@@ -1,39 +1,27 @@
 <script lang="ts" setup>
-import { ITableColumn, ITableRowData, Table } from '@/shared/components';
+import { computed, ComputedRef, unref } from 'vue';
+import { useStore } from 'vuex';
+
+import { Table } from '@/shared/components';
 import { Pagination } from '@/shared/components/Pagination';
+import { OrganizationModel } from '@/entities/Organization/model';
+import { IOrganizationData } from '@/entities/Organization/model/organizations';
+import { convertOrganizationDataToTableRowData } from '@/entities/Organization/lib/convertOrganizationDataToTableRowData';
+import { tableColumns } from '@/entities/Organization/config/organizationTableColumns';
 
-const tableColumns: ITableColumn[] = [
-  {
-    view: 'Название',
-    dataKey: 'name',
-    sortable: true
-  },
-  {
-    view: 'ФИО Директора',
-    dataKey: 'SEOFullName',
-    sortable: true
-  },
-  {
-    view: 'Номер телефона',
-    dataKey: 'phoneNumber',
-    sortable: false
-  }
-];
+const store = useStore();
+const organizationsData: ComputedRef<IOrganizationData[]> =
+  computed(() => store.getters[OrganizationModel.getters.slicedFilteredSortedOrganizations]);
+const rowsData = computed(() => convertOrganizationDataToTableRowData(unref(organizationsData)));
 
-const rowsData: ITableRowData[] = [
-  {
-    rowId: '1',
-    data: {
-      'name': 'ООО "пук"',
-      'SEOFullName': 'Иванов П.П.',
-      'phoneNumber': '+79999999999'
-    }
-  }
-];
+const currentPage = computed(() => store.state['organizations'].pagination.currentPage);
+const totalPages = computed(() => store.getters[OrganizationModel.getters.totalPagesCount]);
 
-const sortHandler = (data: string) => {
-  console.log(data);
-};
+const sortingState = computed(() => store.state['organizations'].sortingState);
+
+const changePage = (newPage: number) => store.commit(OrganizationModel.mutations.setCurrentPage, newPage);
+
+const sortHandler = (data: string) => store.commit(OrganizationModel.mutations.changeSortingState, data);
 </script>
 
 <template>
@@ -42,6 +30,7 @@ const sortHandler = (data: string) => {
       :addActionsColumn="true"
       :columns="tableColumns"
       :rowsData="rowsData"
+      :sortingState="sortingState"
       @sort="sortHandler"
     >
       <template v-slot:beforeHeader>
@@ -54,9 +43,9 @@ const sortHandler = (data: string) => {
     </Table>
 
     <Pagination
-      :currentPage='1'
-      :totalPages="100"
-      @changePage="sortHandler"
+      :currentPage='currentPage'
+      :totalPages="totalPages"
+      @changePage="changePage"
     />
   </div>
 </template>

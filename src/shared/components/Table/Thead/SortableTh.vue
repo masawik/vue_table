@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { SortStates } from '@/shared/components';
+//todo подумать что с этим сделать. нельзя использовать импорт с одного слоя.
+import { SortingDirections } from '@/shared/config';
 
 interface ISortableThProps {
-  sorted?: SortStates;
+  sorted?: SortingDirections;
 }
 
 const { sorted } = defineProps<ISortableThProps>();
@@ -11,8 +12,8 @@ const { sorted } = defineProps<ISortableThProps>();
 <template>
   <th
     :class="{
-    'sortableThAsc': sorted === SortStates.ASC,
-    'sortableThDesc': sorted === SortStates.DESC
+    'sortableThAsc': sorted === SortingDirections.ASC,
+    'sortableThDesc': sorted === SortingDirections.DESC
     }"
     class="btn-link sortableTh"
 
