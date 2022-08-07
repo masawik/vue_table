@@ -1,5 +1,6 @@
 import { ESortingDirections } from '@/shared/components';
 import { getPrefixer } from '@/shared/lib/getPrefixer';
+import { ROWS_PER_PAGE } from '@/entities/Organization/config/tableConfig';
 
 export const NAMESPACE = 'organizations';
 
@@ -44,7 +45,7 @@ export const model = {
     },
     pagination: {
       currentPage: 1,
-      rowsPerPage: 5
+      rowsPerPage: ROWS_PER_PAGE
     }
   }),
   getters: {
