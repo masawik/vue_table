@@ -134,6 +134,7 @@ export const model = {
     },
     setFilterQuery(state: IOrganizationState, query: string) {
       state.filters.query = query.toLowerCase();
+      state.pagination.currentPage = 1;
     },
     setCurrentPage(state: IOrganizationState, newPage: number) {
       state.pagination.currentPage = newPage;
