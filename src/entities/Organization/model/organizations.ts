@@ -1,7 +1,7 @@
-import { SortingDirections } from '@/shared/config';
-import organizationData from '@/shared/config/OrganizationData.json';
+import { ESortingDirections } from '@/shared/components';
+import { getPrefixer } from '@/shared/lib/getPrefixer';
 
-const NAMESPACE = 'organizations';
+export const NAMESPACE = 'organizations';
 
 export interface IOrganizationData {
   id: number,
@@ -14,7 +14,7 @@ interface IOrganizationState {
   organizations: IOrganizationData[];
   sortingState: {
     dataKey: keyof IOrganizationData,
-    direction: SortingDirections
+    direction: ESortingDirections
   };
   filters: {
     dataKey: Exclude<keyof IOrganizationData, 'id'>,
@@ -28,14 +28,15 @@ interface IOrganizationState {
 
 const initialSortingState: IOrganizationState['sortingState'] = {
   dataKey: 'id',
-  direction: SortingDirections.ASC
+  direction: ESortingDirections.ASC
 };
+
+type TActionProps = { state: IOrganizationState, commit: any }
 
 export const model = {
   namespaced: true,
   state: (): IOrganizationState => ({
-    // @ts-ignore
-    organizations: organizationData,
+    organizations: [],
     sortingState: { ...initialSortingState },
     filters: {
       dataKey: 'principalName',
@@ -64,7 +65,7 @@ export const model = {
               .localeCompare(sortingValue2.toLowerCase());
           }
 
-          if (state.sortingState.direction === SortingDirections.DESC) {
+          if (state.sortingState.direction === ESortingDirections.DESC) {
             compareResult = compareResult * -1;
           }
 
@@ -113,8 +114,8 @@ export const model = {
       } = state.sortingState;
 
       if (currentDataKey === dataKey) {
-        if (currentDirection === SortingDirections.ASC) {
-          state.sortingState.direction = SortingDirections.DESC;
+        if (currentDirection === ESortingDirections.ASC) {
+          state.sortingState.direction = ESortingDirections.DESC;
         } else {
           state.sortingState = { ...initialSortingState };
         }
@@ -123,7 +124,7 @@ export const model = {
       if (currentDataKey !== dataKey) {
         state.sortingState = {
           dataKey: dataKey,
-          direction: SortingDirections.ASC
+          direction: ESortingDirections.ASC
         };
       }
 
@@ -136,10 +137,15 @@ export const model = {
       state.pagination.currentPage = newPage;
     }
   },
-  actions: {}
+  actions: {
+    async fetchOrganizations({ commit }: TActionProps) {
+      const orgDataModule = await import('@/entities/Organization/config/OrganizationData.json');
+      commit('setOrganizations', orgDataModule.default);
+    }
+  }
 };
 
-const withPrefix = (name: string) => `${NAMESPACE}/${name}`;
+const withPrefix = getPrefixer(NAMESPACE);
 
 export const getters = {
   sortedOrganizations: withPrefix('sortedOrganizations'),
@@ -155,4 +161,8 @@ export const mutations = {
   changeSortingState: withPrefix('changeSortingState'),
   setFilterQuery: withPrefix('setFilterQuery'),
   setCurrentPage: withPrefix('setCurrentPage')
+};
+
+export const actions = {
+  fetchOrganizations: withPrefix('fetchOrganizations')
 };

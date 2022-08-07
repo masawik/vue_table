@@ -2,17 +2,17 @@
 import { Thead } from './Thead';
 import { Tbody } from './Tbody';
 import { computed, toRef } from 'vue';
-import { ITableColumn, ITableRowData } from '@/shared/components/Table/types';
-import { SortingDirections } from '@/shared/config';
+import {
+  ITableColumn,
+  ITableRowData,
+  ISortingState
+} from './types';
 
 export interface ITableProps {
   columns: ITableColumn[];
   rowsData: ITableRowData[];
   addActionsColumn: boolean;
-  sortingState: {
-    dataKey: string,
-    direction: SortingDirections
-  };
+  sortingState: ISortingState;
 }
 
 const props = defineProps<ITableProps>();

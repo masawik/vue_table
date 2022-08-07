@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ComputedRef, unref } from 'vue';
+import { computed, ComputedRef, onMounted, unref } from 'vue';
 import { useStore } from 'vuex';
 
 import { Table } from '@/shared/components';
@@ -10,6 +10,11 @@ import { convertOrganizationDataToTableRowData } from '@/entities/Organization/l
 import { tableColumns } from '@/entities/Organization/config/organizationTableColumns';
 
 const store = useStore();
+
+onMounted(() => {
+  store.dispatch(OrganizationModel.actions.fetchOrganizations);
+});
+
 const organizationsData: ComputedRef<IOrganizationData[]> =
   computed(() => store.getters[OrganizationModel.getters.slicedFilteredSortedOrganizations]);
 const rowsData = computed(() => convertOrganizationDataToTableRowData(unref(organizationsData)));

@@ -1,16 +1,13 @@
 <script lang="ts" setup>
-import { ITableColumn } from '../types';
-import SortableTh from './SortableTh.vue';
-import { SortingDirections } from '@/shared/config';
 import { toRefs } from 'vue';
+
+import { ITableColumn, ISortingState } from '../types';
+import SortableTh from './SortableTh.vue';
 
 interface ITheadProps {
   columns: ITableColumn[];
   addActionColumn: boolean;
-  sortingState: {
-    dataKey: string,
-    direction: SortingDirections
-  };
+  sortingState: ISortingState;
 }
 
 const props = defineProps<ITheadProps>();

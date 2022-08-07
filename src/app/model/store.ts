@@ -1,8 +1,12 @@
 import { createStore } from 'vuex';
-import { model as OrganizationModel } from '@/entities/Organization/model/organizations';
+
+import {
+  model as OrganizationModel,
+  NAMESPACE as OrganizationNamespace
+} from '@/entities/Organization/model/organizations';
 
 export const store = createStore({
   modules: {
-    organizations: OrganizationModel
+    [OrganizationNamespace]: OrganizationModel
   }
 });

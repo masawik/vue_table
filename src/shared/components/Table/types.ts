@@ -15,3 +15,13 @@ export interface ITableRowData {
     [key: ITableCellData['dataKey']]: ITableCellData['view']
   };
 }
+
+export enum ESortingDirections {
+  ASC = 'ASC',
+  DESC = 'DESC'
+}
+
+export interface ISortingState {
+  dataKey: ITableCellData['dataKey'],
+  direction: ESortingDirections
+}

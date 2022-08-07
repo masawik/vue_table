@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ITableCellData, ITableRowData } from '@/shared/components/Table/types';
+import { ITableCellData, ITableRowData } from '../types';
 
 interface ITbodyProps {
   rowsData: ITableRowData[];
