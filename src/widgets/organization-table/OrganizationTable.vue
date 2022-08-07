@@ -15,7 +15,7 @@ import { AddNewOrganizationRecord } from '@/features';
 const store = useStore();
 
 onMounted(() => {
-  store.dispatch(OrganizationModel.actions.fetchOrganizations);
+  // store.dispatch(OrganizationModel.actions.fetchOrganizations);
 });
 
 const organizationsData: ComputedRef<IOrganizationData[]> =
@@ -35,8 +35,9 @@ const changePage = (newPage: number) => store.commit(OrganizationModel.mutations
 
 const sortHandler = (data: string) => store.commit(OrganizationModel.mutations.changeSortingState, data);
 
+//todo вынести удаление в feature
 const deleteRecordHandler = (rowId: IOrganizationData['id']) => {
-  store.commit(OrganizationModel.mutations.deleteOrganizationById, rowId);
+  store.dispatch(OrganizationModel.actions.deleteOrganization, rowId);
 };
 </script>
 

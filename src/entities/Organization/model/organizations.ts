@@ -142,6 +142,12 @@ export const model = {
     async fetchOrganizations({ commit }: TActionProps) {
       const orgDataModule = await import('@/entities/Organization/config/OrganizationData.json');
       commit('setOrganizations', orgDataModule.default);
+    },
+    async createNewOrganizationRecord({ commit }: TActionProps, newOrganizationData: IOrganizationData) {
+      commit('addOrganizations', [newOrganizationData]);
+    },
+    async deleteOrganization({ commit }: TActionProps, id: IOrganizationData['id']) {
+      commit('deleteOrganizationById', id);
     }
   }
 };
@@ -165,5 +171,7 @@ export const mutations = {
 };
 
 export const actions = {
-  fetchOrganizations: withPrefix('fetchOrganizations')
+  fetchOrganizations: withPrefix('fetchOrganizations'),
+  createNewOrganizationRecord: withPrefix('createNewOrganizationRecord'),
+  deleteOrganization: withPrefix('deleteOrganization')
 };

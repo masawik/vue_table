@@ -32,7 +32,7 @@ const submitHandler = () => {
     principalName: principalName.value
   };
 
-  store.commit(OrganizationModel.mutations.addOrganizations, [newOrganizationData]);
+  store.dispatch(OrganizationModel.actions.createNewOrganizationRecord, newOrganizationData);
   emit('submit');
 };
 </script>
