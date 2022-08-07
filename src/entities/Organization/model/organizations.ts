@@ -32,7 +32,11 @@ const initialSortingState: IOrganizationState['sortingState'] = {
   direction: ESortingDirections.ASC
 };
 
-type TActionProps = { state: IOrganizationState, commit: any }
+type TActionProps = {
+  state: IOrganizationState,
+  commit: any,
+  getters: any
+}
 
 export const model = {
   namespaced: true,
@@ -148,8 +152,16 @@ export const model = {
     async createNewOrganizationRecord({ commit }: TActionProps, newOrganizationData: IOrganizationData) {
       commit('addOrganizations', [newOrganizationData]);
     },
-    async deleteOrganization({ commit }: TActionProps, id: IOrganizationData['id']) {
+    async deleteOrganization({
+      commit,
+      getters
+    }: TActionProps, id: IOrganizationData['id']) {
       commit('deleteOrganizationById', id);
+      const sliceAfterDeleting: Array<IOrganizationData> = getters.slicedFilteredSortedOrganizations;
+
+      if (sliceAfterDeleting.length === 0) {
+        commit('setCurrentPage', getters.totalPagesCount);
+      }
     }
   }
 };
