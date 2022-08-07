@@ -3,6 +3,6 @@ import { OrganizationTable } from '@/widgets';
 </script>
 
 <template>
-  <h1>Organization Table Page</h1>
+  <h1>Справочник организаций</h1>
   <OrganizationTable/>
 </template>
