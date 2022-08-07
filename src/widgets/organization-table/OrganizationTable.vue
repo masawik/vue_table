@@ -34,6 +34,10 @@ const closeNewRecordForm = () => createNewRecordFormVisible.value = false;
 const changePage = (newPage: number) => store.commit(OrganizationModel.mutations.setCurrentPage, newPage);
 
 const sortHandler = (data: string) => store.commit(OrganizationModel.mutations.changeSortingState, data);
+
+const deleteRecordHandler = (rowId: IOrganizationData['id']) => {
+  store.commit(OrganizationModel.mutations.deleteOrganizationById, rowId);
+};
 </script>
 
 <template>
@@ -70,8 +74,13 @@ const sortHandler = (data: string) => store.commit(OrganizationModel.mutations.c
         :sortingState="sortingState"
         @sort="sortHandler"
       >
-        <template v-slot:rowActions="rowSlotProps">
-          <button>X</button>
+        <template v-slot:rowActions="{rowId}">
+          <button
+            aria-label="удалить запись"
+            class="btn btn-danger btn-sm"
+            @click="deleteRecordHandler(rowId)"
+          >X
+          </button>
         </template>
       </Table>
 
