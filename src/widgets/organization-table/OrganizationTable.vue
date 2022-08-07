@@ -11,11 +11,12 @@ import { tableColumns } from '@/entities/Organization/config/organizationTableCo
 import { FilterOrganizations } from '@/features';
 import { Modal } from '@/shared/components/Modal';
 import { AddNewOrganizationRecord } from '@/features';
+import { DeleteOrganizationRecord } from '@/features';
 
 const store = useStore();
 
 onMounted(() => {
-  // store.dispatch(OrganizationModel.actions.fetchOrganizations);
+  store.dispatch(OrganizationModel.actions.fetchOrganizations);
 });
 
 const organizationsData: ComputedRef<IOrganizationData[]> =
@@ -34,11 +35,6 @@ const closeNewRecordForm = () => createNewRecordFormVisible.value = false;
 const changePage = (newPage: number) => store.commit(OrganizationModel.mutations.setCurrentPage, newPage);
 
 const sortHandler = (data: string) => store.commit(OrganizationModel.mutations.changeSortingState, data);
-
-//todo вынести удаление в feature
-const deleteRecordHandler = (rowId: IOrganizationData['id']) => {
-  store.dispatch(OrganizationModel.actions.deleteOrganization, rowId);
-};
 </script>
 
 <template>
@@ -76,12 +72,9 @@ const deleteRecordHandler = (rowId: IOrganizationData['id']) => {
         @sort="sortHandler"
       >
         <template v-slot:rowActions="{rowId}">
-          <button
-            aria-label="удалить запись"
-            class="btn btn-danger btn-sm"
-            @click="deleteRecordHandler(rowId)"
-          >X
-          </button>
+          <DeleteOrganizationRecord
+            :id="rowId"
+          />
         </template>
       </Table>
 
