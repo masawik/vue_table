@@ -48,9 +48,6 @@ const sortHandler = (headerDataKey: string) => {
     </template>
     </Thead>
 
-
-    <!--  todo добавить заглушку при отсутствии данных  -->
-
     <Tbody
       :addActionColumn="addActionsColumn"
       :dataKeyOrder="dataKeyOrder"

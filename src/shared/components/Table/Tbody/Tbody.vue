@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ITableCellData, ITableRowData } from '../types';
+import { computed, toRef } from 'vue';
 
 interface ITbodyProps {
   rowsData: ITableRowData[];
@@ -7,11 +8,16 @@ interface ITbodyProps {
   addActionColumn: boolean;
 }
 
+const props = defineProps<ITbodyProps>();
 const {
-  rowsData,
   dataKeyOrder,
   addActionColumn
-} = defineProps<ITbodyProps>();
+} = props;
+
+const rowsData = toRef(props, 'rowsData');
+
+const isDataEmpty = computed(() => rowsData.value.length === 0);
+const countOfColumns = addActionColumn ? dataKeyOrder.length + 1 : dataKeyOrder.length;
 </script>
 
 <template>
@@ -32,6 +38,13 @@ const {
         :rowId="rowId"
         name="action"
       />
+    </td>
+  </tr>
+
+  <!-- заглушка для отсутствующих данных -->
+  <tr v-if="isDataEmpty">
+    <td :colspan="countOfColumns">
+      данных нет
     </td>
   </tr>
   </tbody>
