@@ -56,9 +56,9 @@ const sortHandler = (headerDataKey: string) => {
       :dataKeyOrder="dataKeyOrder"
       :rowsData="rowsData"
     >
-    <template v-slot:action="rowSlotProps">
+    <template v-slot:action="{rowId}">
       <slot
-        :rowSlotProps="rowSlotProps"
+        :rowId="rowId"
         name="rowActions"
       />
     </template>

@@ -28,7 +28,10 @@ const {
     </td>
 
     <td v-if="addActionColumn">
-      <slot :rowId="rowId" name="action"/>
+      <slot
+        :rowId="rowId"
+        name="action"
+      />
     </td>
   </tr>
   </tbody>
