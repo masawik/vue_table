@@ -16,5 +16,3 @@ export default {
 <style>
 @import "index.css";
 </style>
-
-<!--todo решить проблему с eslint-->
