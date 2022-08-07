@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ComputedRef, onMounted, unref } from 'vue';
+import { computed, ComputedRef, onMounted, ref, unref } from 'vue';
 import { useStore } from 'vuex';
 
 import { Table } from '@/shared/components';
@@ -9,6 +9,8 @@ import { IOrganizationData } from '@/entities/Organization/model/organizations';
 import { convertOrganizationDataToTableRowData } from '@/entities/Organization/lib/convertOrganizationDataToTableRowData';
 import { tableColumns } from '@/entities/Organization/config/organizationTableColumns';
 import { FilterOrganizations } from '@/features';
+import { Modal } from '@/shared/components/Modal';
+import { AddNewOrganizationRecord } from '@/features';
 
 const store = useStore();
 
@@ -25,6 +27,10 @@ const totalPages = computed(() => store.getters[OrganizationModel.getters.totalP
 
 const sortingState = computed(() => store.state['organizations'].sortingState);
 
+const createNewRecordFormVisible = ref(false);
+const openNewRecordForm = () => createNewRecordFormVisible.value = true;
+const closeNewRecordForm = () => createNewRecordFormVisible.value = false;
+
 const changePage = (newPage: number) => store.commit(OrganizationModel.mutations.setCurrentPage, newPage);
 
 const sortHandler = (data: string) => store.commit(OrganizationModel.mutations.changeSortingState, data);
@@ -37,7 +43,22 @@ const sortHandler = (data: string) => store.commit(OrganizationModel.mutations.c
         <FilterOrganizations/>
       </div>
       <div class="col text-end">
-        <button class="" disabled>Добавить</button>
+        <button class="btn btn-warning" @click="openNewRecordForm">Добавить новую запись</button>
+
+        <Modal
+          :isOpen="createNewRecordFormVisible"
+          :title="'Добавить новую запись'"
+          @close="closeNewRecordForm"
+        >
+          <template v-slot:body>
+            <!--     todo добавить поздравлялку об успешно добавленной записи       -->
+            <AddNewOrganizationRecord
+              @cancel="closeNewRecordForm"
+              @submit="closeNewRecordForm"
+            />
+          </template>
+        </Modal>
+
       </div>
     </div>
 

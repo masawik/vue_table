@@ -40,11 +40,11 @@ const slots = useSlots();
             ></button>
           </div>
 
-          <slot name="body">
-            <div class="modal-body">
+          <div v-if="slots.body" class="modal-body">
+            <slot name="body">
               <slot name="body"/>
-            </div>
-          </slot>
+            </slot>
+          </div>
 
           <div v-if="slots.footer" class="modal-footer">
             <slot name="footer"/>
