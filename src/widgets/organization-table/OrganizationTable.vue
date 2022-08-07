@@ -8,6 +8,7 @@ import { OrganizationModel } from '@/entities/Organization/model';
 import { IOrganizationData } from '@/entities/Organization/model/organizations';
 import { convertOrganizationDataToTableRowData } from '@/entities/Organization/lib/convertOrganizationDataToTableRowData';
 import { tableColumns } from '@/entities/Organization/config/organizationTableColumns';
+import { FilterOrganizations } from '@/features';
 
 const store = useStore();
 
@@ -30,27 +31,34 @@ const sortHandler = (data: string) => store.commit(OrganizationModel.mutations.c
 </script>
 
 <template>
-  <div class="row mb-1 mt-3">
-    <Table
-      :addActionsColumn="true"
-      :columns="tableColumns"
-      :rowsData="rowsData"
-      :sortingState="sortingState"
-      @sort="sortHandler"
-    >
-      <template v-slot:beforeHeader>
-        <caption>Organization List</caption>
-      </template>
+  <div>
+    <div class="row mb-3 mt-4">
+      <div class="col-3">
+        <FilterOrganizations/>
+      </div>
+      <div class="col text-end">
+        <button class="" disabled>Добавить</button>
+      </div>
+    </div>
 
-      <template v-slot:rowActions="rowSlotProps">
-        <button>X</button>
-      </template>
-    </Table>
+    <div class="row mb-1">
+      <Table
+        :addActionsColumn="true"
+        :columns="tableColumns"
+        :rowsData="rowsData"
+        :sortingState="sortingState"
+        @sort="sortHandler"
+      >
+        <template v-slot:rowActions="rowSlotProps">
+          <button>X</button>
+        </template>
+      </Table>
 
-    <Pagination
-      :currentPage='currentPage'
-      :totalPages="totalPages"
-      @changePage="changePage"
-    />
+      <Pagination
+        :currentPage='currentPage'
+        :totalPages="totalPages"
+        @changePage="changePage"
+      />
+    </div>
   </div>
 </template>

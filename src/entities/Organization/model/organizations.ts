@@ -93,8 +93,9 @@ export const model = {
 
       return organizations.slice(startIndex, endIndex);
     },
-    totalPagesCount(state: IOrganizationState) {
-      return Math.ceil(state.organizations.length / state.pagination.rowsPerPage);
+    totalPagesCount(state: IOrganizationState, getters: any) {
+      const organizations: IOrganizationData[] = getters.filteredSortedOrganizations;
+      return Math.ceil(organizations.length / state.pagination.rowsPerPage);
     }
   },
   mutations: {
