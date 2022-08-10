@@ -45,12 +45,14 @@ const submitHandler = () => {
       <input
         id="name"
         v-model="name"
+        v-focus
         class="form-control"
         maxlength="40"
         minlength="3"
         placeholder="ООО 'Витязь'"
         required
-        type="text">
+        type="text"
+      >
     </div>
 
     <div class="mb-3">

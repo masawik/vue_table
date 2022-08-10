@@ -6,6 +6,9 @@ interface ISortableThProps {
 }
 
 const { sorted } = defineProps<ISortableThProps>();
+const emit = defineEmits(['click']);
+
+const clickHandler = () => emit('click');
 </script>
 
 <template>
@@ -16,8 +19,10 @@ const { sorted } = defineProps<ISortableThProps>();
     }"
     class="btn-link sortableTh"
 
-
     role="button"
+    tabindex="0"
+    @click="clickHandler"
+    @keypress.enter.space="clickHandler"
   >
     <slot/>
   </th>

@@ -25,7 +25,6 @@ const emit = defineEmits(['changePage']);
     <button
       :disabled="disabled || active"
       class="page-link"
-      tabIndex='-1'
       @click="emit('changePage')"
     >
       {{ text }}
