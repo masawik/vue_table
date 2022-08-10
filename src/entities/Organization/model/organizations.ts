@@ -160,7 +160,7 @@ export const model = {
       const sliceAfterDeleting: Array<IOrganizationData> = getters.slicedFilteredSortedOrganizations;
 
       if (sliceAfterDeleting.length === 0) {
-        commit('setCurrentPage', getters.totalPagesCount);
+        commit('setCurrentPage', getters.totalPagesCount || 1);
       }
     }
   }
