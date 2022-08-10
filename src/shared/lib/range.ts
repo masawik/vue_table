@@ -1,4 +1,3 @@
 export const range = (from: number, to: number): Array<number> =>
-  new Array(to - from)
-    .fill(null)
+  Array.from({ length: to - from })
     .map((_, index) => from + index);
