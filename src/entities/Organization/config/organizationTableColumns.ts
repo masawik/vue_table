@@ -1,19 +1,19 @@
-import { ITableColumn } from '@/shared/components';
+import { ITableColumn } from '@/shared/components'
 
 export const tableColumns: ITableColumn[] = [
   {
     view: 'Название',
     dataKey: 'name',
-    sortable: true
+    sortable: true,
   },
   {
     view: 'ФИО Директора',
     dataKey: 'principalName',
-    sortable: true
+    sortable: true,
   },
   {
     view: 'Номер телефона',
     dataKey: 'phoneNumber',
-    sortable: false
-  }
-];
+    sortable: false,
+  },
+]

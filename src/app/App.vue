@@ -3,7 +3,7 @@ import { OrganizationTablePage } from '@/pages'
 
 export default {
   name: 'App',
-  components: { OrganizationTablePage }
+  components: { OrganizationTablePage },
 }
 </script>
 

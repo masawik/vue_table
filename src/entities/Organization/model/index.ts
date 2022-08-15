@@ -1,1 +1,1 @@
-export * as OrganizationModel from './organizations';
+export * as OrganizationModel from './organizations'

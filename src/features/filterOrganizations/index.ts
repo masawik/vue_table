@@ -1,1 +1,1 @@
-export { default as FilterOrganizations } from './FilterOrganizations.vue';
+export { default as FilterOrganizations } from './FilterOrganizations.vue'

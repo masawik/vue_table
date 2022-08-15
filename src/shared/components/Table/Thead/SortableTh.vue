@@ -1,21 +1,21 @@
 <script lang="ts" setup>
-import { ESortingDirections } from '../types';
+import { ESortingDirections } from '../types'
 
 interface ISortableThProps {
   sorted?: ESortingDirections;
 }
 
-const { sorted } = defineProps<ISortableThProps>();
-const emit = defineEmits(['click']);
+const props = defineProps<ISortableThProps>()
+const emit = defineEmits(['click'])
 
-const clickHandler = () => emit('click');
+const clickHandler = () => emit('click')
 </script>
 
 <template>
   <th
     :class="{
-    'sortableThAsc': sorted === ESortingDirections.ASC,
-    'sortableThDesc': sorted === ESortingDirections.DESC
+      'sortableThAsc': props.sorted === ESortingDirections.ASC,
+      'sortableThDesc': props.sorted === ESortingDirections.DESC
     }"
     class="btn-link sortableTh"
 
@@ -24,7 +24,7 @@ const clickHandler = () => emit('click');
     @click="clickHandler"
     @keypress.enter.space="clickHandler"
   >
-    <slot/>
+    <slot />
   </th>
 </template>
 

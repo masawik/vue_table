@@ -1,12 +1,10 @@
+<!--eslint-disable vue/multi-word-component-names-->
 <script lang="ts" setup>
-import { Thead } from './Thead';
-import { Tbody } from './Tbody';
-import { computed, toRef } from 'vue';
-import {
-  ITableColumn,
-  ITableRowData,
-  ISortingState
-} from './types';
+import { computed, toRefs } from 'vue'
+
+import { Thead } from './Thead'
+import { Tbody } from './Tbody'
+import { ISortingState, ITableColumn, ITableRowData } from './types'
 
 export interface ITableProps {
   columns: ITableColumn[];
@@ -15,52 +13,52 @@ export interface ITableProps {
   sortingState: ISortingState;
 }
 
-const props = defineProps<ITableProps>();
+const props = defineProps<ITableProps>()
 const {
   columns,
-  addActionsColumn
-} = props;
-const rowsData = toRef(props, 'rowsData');
-const sortingState = toRef(props, 'sortingState');
+  addActionsColumn,
+  rowsData,
+  sortingState,
+} = toRefs(props)
 
-const emit = defineEmits(['sort']);
+const emit = defineEmits(['sort'])
 
-const dataKeyOrder = computed(() => columns.map(column => column.dataKey));
+const dataKeyOrder = computed(() => columns.value.map(column => column.dataKey))
 
 const sortHandler = (headerDataKey: string) => {
-  emit('sort', headerDataKey);
-};
+  emit('sort', headerDataKey)
+}
 
 </script>
 
 <template>
   <table class="table table-light table-hover table-bordered caption-top text-center">
-    <slot name="beforeHeader"/>
+    <slot name="beforeHeader" />
     <!--  todo нужно выносить отсюда Thead. слишком много проблем с сортировкой  -->
     <Thead
-      :addActionColumn="addActionsColumn"
+      :add-action-column="addActionsColumn"
       :columns="columns"
-      :sortingState="sortingState"
+      :sorting-state="sortingState"
       @sort="sortHandler"
     >
-    <template v-slot:action>
-      <slot name="headerAction"/>
-    </template>
+      <template #action>
+        <slot name="headerAction" />
+      </template>
     </Thead>
 
     <Tbody
-      :addActionColumn="addActionsColumn"
-      :dataKeyOrder="dataKeyOrder"
-      :rowsData="rowsData"
+      :add-action-column="addActionsColumn"
+      :data-key-order="dataKeyOrder"
+      :rows-data="rowsData"
     >
-    <template v-slot:action="{rowId}">
-      <slot
-        :rowId="rowId"
-        name="rowActions"
-      />
-    </template>
+      <template #action="{rowId}">
+        <slot
+          :row-id="rowId"
+          name="rowActions"
+        />
+      </template>
     </Tbody>
 
-    <slot name="footer"/>
+    <slot name="footer" />
   </table>
 </template>

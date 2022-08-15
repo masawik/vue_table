@@ -1,1 +1,1 @@
-export { default as DeleteOrganizationRecord } from './DeleteOrganizationRecord.vue';
+export { default as DeleteOrganizationRecord } from './DeleteOrganizationRecord.vue'

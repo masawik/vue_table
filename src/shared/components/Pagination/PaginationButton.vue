@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { toRefs } from 'vue'
 
 interface IPaginationButtonItem {
   disabled?: boolean;
@@ -7,14 +7,14 @@ interface IPaginationButtonItem {
   text: string | number;
 }
 
-const props = defineProps<IPaginationButtonItem>();
+const props = defineProps<IPaginationButtonItem>()
 const {
   disabled,
   text,
-  active
-} = toRefs(props);
+  active,
+} = toRefs(props)
 
-const emit = defineEmits(['changePage']);
+const emit = defineEmits(['changePage'])
 </script>
 
 <template>

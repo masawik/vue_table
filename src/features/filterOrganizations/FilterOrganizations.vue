@@ -1,14 +1,15 @@
 <script lang="ts" setup>
-import { useStore } from 'vuex';
-import debounce from 'lodash/debounce';
-import { OrganizationModel } from '@/entities/Organization/model';
+import { useStore } from 'vuex'
 
-const store = useStore();
+import debounce from 'lodash/debounce'
+import { OrganizationModel } from '@/entities/Organization/model'
+
+const store = useStore()
 
 const inputHandler = debounce((e: Event) => {
-  const target = e.target as HTMLInputElement;
-  store.commit(OrganizationModel.mutations.setFilterQuery, target.value);
-}, 500);
+  const target = e.target as HTMLInputElement
+  store.commit(OrganizationModel.mutations.setFilterQuery, target.value)
+}, 500)
 </script>
 
 <template>

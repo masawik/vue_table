@@ -1,1 +1,1 @@
-export { default as AddNewOrganizationRecord } from './AddNewOrganizationRecord.vue';
+export { default as AddNewOrganizationRecord } from './AddNewOrganizationRecord.vue'

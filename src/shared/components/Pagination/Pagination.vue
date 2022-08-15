@@ -1,9 +1,10 @@
+<!--eslint-disable vue/multi-word-component-names-->
 <!--todo добавить формочку перемещения на указанную страницу при большом количестве страниц-->
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
-import PaginationButton from './PaginationButton.vue';
-import PaginationButtonPlaceHolder from './PaginationButtonPlaceHolder.vue';
-import { range } from '@/shared/lib/range';
+import { computed, toRefs } from 'vue'
+import PaginationButton from './PaginationButton.vue'
+import PaginationButtonPlaceHolder from './PaginationButtonPlaceHolder.vue'
+import { range } from '@/shared/lib/range'
 
 interface IPaginationProps {
   currentPage: number,
@@ -15,48 +16,48 @@ interface IPaginationProps {
 
 const props = withDefaults(defineProps<IPaginationProps>(), {
   addNextPrevButtons: true,
-  countOfButtonsFromCurrent: 3
-});
+  countOfButtonsFromCurrent: 3,
+})
 
 const {
   currentPage,
   totalPages,
   addNextPrevButtons,
-  countOfButtonsFromCurrent
-} = toRefs(props);
+  countOfButtonsFromCurrent,
+} = toRefs(props)
 
 const pageData = computed(() => ({
   prevPage: currentPage.value > 1 ? currentPage.value - 1 : null,
   nextPage: currentPage.value < totalPages.value ? currentPage.value + 1 : null,
   isCurrentPageFirst: currentPage.value === 1,
-  isCurrentPageLast: currentPage.value === totalPages.value
-}));
+  isCurrentPageLast: currentPage.value === totalPages.value,
+}))
 
 const pagesToGenerate = computed(() => {
   //todo fast fix. возможно, нужно сделать иначе
   if (totalPages.value < (countOfButtonsFromCurrent.value * 2) + 2) {
-    return range(2, totalPages.value);
+    return range(2, totalPages.value)
   }
 
-  let start = currentPage.value - countOfButtonsFromCurrent.value;
-  let end = currentPage.value + countOfButtonsFromCurrent.value;
+  let start = currentPage.value - countOfButtonsFromCurrent.value
+  let end = currentPage.value + countOfButtonsFromCurrent.value
 
   if (start < 2) {
-    start = 2;
-    end = countOfButtonsFromCurrent.value * 2 + 2;
+    start = 2
+    end = countOfButtonsFromCurrent.value * 2 + 2
   }
 
   if (end > totalPages.value) {
-    end = totalPages.value;
-    start = totalPages.value - countOfButtonsFromCurrent.value * 2;
+    end = totalPages.value
+    start = totalPages.value - countOfButtonsFromCurrent.value * 2
   }
 
-  return range(start, end);
-});
+  return range(start, end)
+})
 
-const emit = defineEmits(['changePage']);
+const emit = defineEmits(['changePage'])
 
-const changePageHandler = (page: number) => emit('changePage', page);
+const changePageHandler = (page: number) => emit('changePage', page)
 </script>
 
 <template>
@@ -70,14 +71,14 @@ const changePageHandler = (page: number) => emit('changePage', page);
         v-if="addNextPrevButtons"
         :disabled="pageData.prevPage === null"
         :text="'предыдущая страница'"
-        @changePage="changePageHandler(pageData.prevPage)"
+        @change-page="changePageHandler(pageData.prevPage)"
       />
 
       <!--   first page button   -->
       <PaginationButton
         :active="pageData.isCurrentPageFirst"
         :text="'1'"
-        @changePage="changePageHandler(1)"
+        @change-page="changePageHandler(1)"
       />
 
       <!--  left  placeholder    -->
@@ -88,9 +89,10 @@ const changePageHandler = (page: number) => emit('changePage', page);
       <!--   generated buttons   -->
       <PaginationButton
         v-for="pageNumber in pagesToGenerate"
+        :key="pageNumber"
         :active="pageNumber === currentPage"
         :text="pageNumber"
-        @changePage="changePageHandler(pageNumber)"
+        @change-page="changePageHandler(pageNumber)"
       />
 
       <!--  right  placeholder    -->
@@ -102,7 +104,7 @@ const changePageHandler = (page: number) => emit('changePage', page);
       <PaginationButton
         :active="pageData.isCurrentPageLast"
         :text="totalPages"
-        @changePage="changePageHandler(totalPages)"
+        @change-page="changePageHandler(totalPages)"
       />
 
       <!--   next page button   -->
@@ -110,7 +112,7 @@ const changePageHandler = (page: number) => emit('changePage', page);
         v-if="addNextPrevButtons"
         :disabled="pageData.nextPage === null"
         :text="'следующая страница'"
-        @changePage="changePageHandler(pageData.nextPage)"
+        @change-page="changePageHandler(pageData.nextPage)"
       />
     </ul>
   </div>

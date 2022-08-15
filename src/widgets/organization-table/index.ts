@@ -1,1 +1,1 @@
-export { default as OrganizationTable } from './OrganizationTable.vue';
+export { default as OrganizationTable } from './OrganizationTable.vue'

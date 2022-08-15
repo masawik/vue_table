@@ -1,1 +1,1 @@
-export { default as Tbody } from './Tbody.vue';
+export { default as Tbody } from './Tbody.vue'

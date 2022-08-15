@@ -1,20 +1,21 @@
 <script lang="ts" setup>
-import { IOrganizationData } from '@/entities/Organization/model/organizations';
-import { OrganizationModel } from '@/entities/Organization/model';
-import { useStore } from 'vuex';
+import { useStore } from 'vuex'
+
+import { IOrganizationData } from '@/entities/Organization/model/organizations'
+import { OrganizationModel } from '@/entities/Organization/model'
 
 interface IDeleteOrganizationRecordProps {
   id: IOrganizationData['id'];
 }
 
-const store = useStore();
+const store = useStore()
 
-const { id } = defineProps<IDeleteOrganizationRecordProps>();
+const props = defineProps<IDeleteOrganizationRecordProps>()
 
 //Возможно, стоит вынести обратно в виджет, чтобы не создавать новую функцию на каждую строку таблицы
 const deleteRecordHandler = () => {
-  store.dispatch(OrganizationModel.actions.deleteOrganization, id);
-};
+  store.dispatch(OrganizationModel.actions.deleteOrganization, props.id)
+}
 </script>
 
 <template>
@@ -22,6 +23,7 @@ const deleteRecordHandler = () => {
     aria-label="удалить запись"
     class="btn btn-danger btn-sm"
     @click="deleteRecordHandler"
-  >X
+  >
+    X
   </button>
 </template>
